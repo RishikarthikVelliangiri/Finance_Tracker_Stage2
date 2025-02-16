@@ -1,0 +1,23 @@
+{
+  "name": "personal-finance-visualizer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@shadcn/ui": "latest",
+    "mongodb": "^4.12.1",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "recharts": "^2.1.11"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.9",
+    "typescript": "latest"
+  }
+}
