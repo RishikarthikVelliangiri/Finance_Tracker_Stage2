@@ -1,88 +1,75 @@
 // pages/index.tsx
-import { useState, useEffect } from "react";
-import TransactionForm from "../components/TransactionForm";
-import TransactionList from "../components/TransactionList";
-import MonthlyChart from "../components/MonthlyChart";
-
-interface Transaction {
-  _id: string;
-  amount: number;
-  date: string;
-  description: string;
-}
+import { useEffect, useState } from 'react';
+import TransactionForm from '../components/TransactionForm';
+import TransactionList from '../components/TransactionList';
+import MonthlyChart from '../components/MonthlyChart';
+import CategoryPieChart from '../components/CategoryPieChart';
+import styles from './index.module.css';
 
 export default function Home() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [monthlyData, setMonthlyData] = useState<{ month: string; total: number }[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
+
+  // Fetch transactions from the API
+  const fetchTransactions = async () => {
+    try {
+      const res = await fetch('/api/transactions');
+      const data = await res.json();
+      setTransactions(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     fetchTransactions();
   }, []);
 
-  useEffect(() => {
-    aggregateMonthlyData();
-  }, [transactions]);
-
-  // Fetch transactions from the API
-  const fetchTransactions = async () => {
+  const addTransaction = async (transaction: any) => {
     try {
-      const res = await fetch("/api/transactions");
-      if (!res.ok) {
-        throw new Error("Failed to fetch transactions.");
-      }
+      const res = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(transaction)
+      });
       const data = await res.json();
-      setTransactions(data);
+      setTransactions([...transactions, data]);
     } catch (error) {
-      console.error("Error fetching transactions:", error);
+      console.error(error);
     }
   };
 
-  // Callback to update transactions when a new one is added
-  const handleTransactionAdded = (transaction: Transaction) => {
-    setTransactions((prev) => [...prev, transaction]);
-  };
-
-  // Handle deleting a transaction (ensure your API supports DELETE requests)
-  const handleDeleteTransaction = async (id: string) => {
+  const deleteTransaction = async (id: string) => {
     try {
-      const res = await fetch(`/api/transactions?id=${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        throw new Error("Failed to delete transaction.");
-      }
+      await fetch(`/api/transactions?id=${id}`, { method: 'DELETE' });
       setTransactions(transactions.filter((t) => t._id !== id));
     } catch (error) {
-      console.error("Error deleting transaction:", error);
+      console.error(error);
     }
   };
 
-  // Aggregate transactions to get monthly totals
-  const aggregateMonthlyData = () => {
-    const monthTotals: { [key: string]: number } = {};
+  // Aggregate monthly data
+  const monthlyData = Object.values(transactions.reduce((acc, t) => {
+    const date = new Date(t.date);
+    const month = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    if (!acc[month]) acc[month] = { month, total: 0 };
+    acc[month].total += t.amount;
+    return acc;
+  }, {} as Record<string, { month: string; total: number }>));
 
-    transactions.forEach((transaction) => {
-      const dateObj = new Date(transaction.date);
-      const month = dateObj.toLocaleString("default", { month: "long" });
-      const year = dateObj.getFullYear();
-      const key = `${month} ${year}`;
-      monthTotals[key] = (monthTotals[key] || 0) + transaction.amount;
-    });
-
-    const aggregated = Object.entries(monthTotals).map(([month, total]) => ({
-      month,
-      total,
-    }));
-    setMonthlyData(aggregated);
-  };
+  // Aggregate category data
+  const categoryData = Object.values(transactions.reduce((acc, t) => {
+    if (!acc[t.category]) acc[t.category] = { category: t.category, total: 0 };
+    acc[t.category].total += t.amount;
+    return acc;
+  }, {} as Record<string, { category: string; total: number }>));
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Personal Finance Visualizer</h1>
-      <TransactionForm onTransactionAdded={handleTransactionAdded} />
-      <TransactionList transactions={transactions} onDelete={handleDeleteTransaction} />
-      <h2>Monthly Expenses</h2>
+    <div className={styles.container}>
+      <h1 className={styles.header}>Expense Tracker</h1>
+      <TransactionForm onTransactionAdded={addTransaction} />
+      <TransactionList transactions={transactions} onDelete={deleteTransaction} />
       <MonthlyChart data={monthlyData} />
+      <CategoryPieChart data={categoryData} />
     </div>
   );
 }

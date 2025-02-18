@@ -5,19 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "@shadcn/ui": "latest",
-    "mongodb": "^4.12.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "recharts": "^2.1.11"
-  },
-  "devDependencies": {
-    "@types/react": "19.0.9",
-    "typescript": "latest"
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.3.0"
   }
 }

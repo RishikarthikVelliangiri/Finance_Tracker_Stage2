@@ -1,0 +1,54 @@
+/* components/TransactionList.module.css */
+.listContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.transactionItem {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transactionItem:last-child {
+  border-bottom: none;
+}
+
+.transactionInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.details {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.deleteButton:hover {
+  text-decoration: underline;
+}
+
+.noTransactions {
+  text-align: center;
+  color: #6b7280;
+  margin: 2rem 0;
+}

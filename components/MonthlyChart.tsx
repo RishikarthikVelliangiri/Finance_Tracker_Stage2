@@ -1,27 +1,32 @@
 // components/MonthlyChart.tsx
-import React from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
+import styles from './MonthlyChart.module.css';
 
-interface MonthlyData {
-  month: string;
-  total: number;
-}
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 interface MonthlyChartProps {
-  data: MonthlyData[];
+  data: { month: string; total: number }[];
 }
 
 const MonthlyChart: React.FC<MonthlyChartProps> = ({ data }) => {
+  const chartData = {
+    labels: data.map(item => item.month),
+    datasets: [
+      {
+        label: 'Total Expenses',
+        data: data.map(item => item.total),
+        backgroundColor: '#4f46e5'
+      }
+    ]
+  };
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="total" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
+    <div className={styles.chartContainer}>
+      <h2 className={styles.chartTitle}>Monthly Expenses</h2>
+      <Bar data={chartData} />
+    </div>
   );
 };
 

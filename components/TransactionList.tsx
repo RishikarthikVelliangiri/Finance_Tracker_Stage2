@@ -1,11 +1,13 @@
 // components/TransactionList.tsx
-import React from "react";
+import React from 'react';
+import styles from './TransactionList.module.css';
 
 interface Transaction {
-  _id: string;
+  id: string;
   amount: number;
   date: string;
   description: string;
+  category: string;
 }
 
 interface TransactionListProps {
@@ -14,24 +16,19 @@ interface TransactionListProps {
 }
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions, onDelete }) => {
-  if (transactions.length === 0) {
-    return <p>No transactions available.</p>;
-  }
-
   return (
-    <div>
-      <h2>Transactions</h2>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {transactions.map((transaction) => (
-          <li key={transaction._id} style={{ marginBottom: "1rem", borderBottom: "1px solid #ccc", paddingBottom: "0.5rem" }}>
-            <div>
-              <strong>{transaction.description}</strong> - ${transaction.amount} on{" "}
-              {new Date(transaction.date).toLocaleDateString()}
-            </div>
-            <button onClick={() => onDelete(transaction._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.listContainer}>
+      {transactions.map((transaction) => (
+        <div key={transaction.id} className={styles.transactionItem}>
+          <div className={styles.transactionInfo}>
+            <p><strong>{transaction.description}</strong></p>
+            <p>₹{transaction.amount} - {transaction.date} ({transaction.category})</p>
+          </div>
+          <button className={styles.deleteButton} onClick={() => onDelete(transaction.id)}>
+            Delete
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
