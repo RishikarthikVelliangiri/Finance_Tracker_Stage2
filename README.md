@@ -1,54 +1,36 @@
-# Personal Finance Visualizer
+# Finance Tracker Stage 2
 
-A simple web application for tracking personal finances built with Next.js, React, shadcn/ui, Recharts, and MongoDB.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Deployment](#deployment)
-- [License](#license)
-
-## Overview
-
-The Personal Finance Visualizer helps you manage your transactions and visualize your monthly expenses. This version includes Stage 1 features such as:
-
-- Adding, viewing, and deleting transactions.
-- Visualizing monthly expenses with a bar chart.
-
-Future stages will include transaction categorization and budgeting features.
+A personal finance visualizer web application that helps you manage and track your transactions. This Stage 2 version includes transaction categorization, monthly expense visualization, and a category breakdown pie chart. The app features a modern, minimalistic design using CSS Modules and connects to MongoDB for data persistence.
 
 ## Features
 
-### Stage 1: Basic Transaction Tracking
-- **Add Transaction:** Input details including amount, date, and description.
-- **View Transactions:** Display a list of transactions.
-- **Delete Transaction:** Remove transactions that are no longer needed.
-- **Monthly Expenses Chart:** Use Recharts to display monthly aggregated expense data.
+- **Transaction Management:**  
+  - Add new transactions (amount, date, description, and category).  
+  - View a list of all transactions.  
+  - Delete transactions.
+
+- **Charts & Visualization:**  
+  - **Monthly Expenses Bar Chart:** Visualize your spending over the months.
+  - **Category Breakdown Pie Chart:** See the distribution of your expenses by category.
+
+- **Modern UI:**  
+  - Styled with CSS Modules for a clean, minimalistic look.
+
+- **MongoDB Integration:**  
+  - Data is stored in a MongoDB database for persistence.
 
 ## Tech Stack
 
-- **Next.js** – React framework with server-side rendering and routing.
-- **React** – Library for building user interfaces.
-- **shadcn/ui** – UI components for consistent design.
-- **Recharts** – Charting library for data visualizations.
-- **MongoDB** – NoSQL database for storing transactions.
+- **Next.js:** React framework for server-side rendering and routing.
+- **React:** UI library.
+- **CSS Modules:** Scoped styling for components.
+- **MongoDB:** NoSQL database.
+- **Chart.js & react-chartjs-2:** Data visualization libraries.
 
-## Getting Started
-
-### Prerequisites
-
-- **Node.js & npm:** Ensure you have [Node.js](https://nodejs.org/) installed.
-- **MongoDB:** Either a local MongoDB instance or a cloud-hosted solution like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-
-### Installation
+## Installation
 
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/RishikarthikVelliangiri/Finance_Tracker.git
-   cd Finance_Tracker
+   git clone https://github.com/RishikarthikVelliangiri/Finance_Tracker_Stage2.git
+   cd Finance_Tracker_Stage2
