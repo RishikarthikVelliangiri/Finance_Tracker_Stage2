@@ -47,21 +47,26 @@ export default function Home() {
     }
   };
 
-  // Aggregate monthly data
-  const monthlyData = Object.values(transactions.reduce((acc, t) => {
+  // pages/index.tsx (inside your Home component)
+const monthlyData: { month: string; total: number }[] = Object.values(
+  transactions.reduce((acc, t) => {
     const date = new Date(t.date);
     const month = date.toLocaleString('default', { month: 'short', year: 'numeric' });
     if (!acc[month]) acc[month] = { month, total: 0 };
     acc[month].total += t.amount;
     return acc;
-  }, {} as Record<string, { month: string; total: number }>));
+  }, {} as Record<string, { month: string; total: number }>)
+);
 
-  // Aggregate category data
-  const categoryData = Object.values(transactions.reduce((acc, t) => {
+
+const categoryData: { category: string; total: number }[] = Object.values(
+  transactions.reduce((acc, t) => {
     if (!acc[t.category]) acc[t.category] = { category: t.category, total: 0 };
     acc[t.category].total += t.amount;
     return acc;
-  }, {} as Record<string, { category: string; total: number }>));
+  }, {} as Record<string, { category: string; total: number }>)
+);
+
 
   return (
     <div className={styles.container}>
